@@ -1,0 +1,5 @@
+# Grant the active local desktop user access to these headset HID nodes.
+# Must sort before 73-seat-late.rules so its uaccess builtin applies the ACL.
+# No world-writable permissions and no access to unrelated Razer devices.
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1532", ATTRS{idProduct}=="0565", TAG+="uaccess"
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1532", ATTRS{idProduct}=="056e", TAG+="uaccess"

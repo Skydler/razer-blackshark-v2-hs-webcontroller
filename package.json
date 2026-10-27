@@ -1,0 +1,13 @@
+{
+  "name": "blackshark-local-control",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A local-only, safety-first WebHID controller for the Razer BlackShark V2 HyperSpeed.",
+  "scripts": {
+    "start": "python3 -m http.server 8080 --bind 127.0.0.1",
+    "test": "node --test",
+    "check": "node --check src/app.js && node --check src/audio.js && node --check src/controller.js && node --check src/protocol.js && node --check src/transport.js"
+  },
+  "engines": { "node": ">=22" }
+}
