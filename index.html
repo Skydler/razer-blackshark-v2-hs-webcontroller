@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
+  <meta name="color-scheme" content="dark">
   <meta name="referrer" content="no-referrer">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'none'; img-src 'self'; font-src 'self'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'none'">
   <meta name="description" content="Local-only WebHID control for the Razer BlackShark V2 HyperSpeed. No account, downloads, or telemetry.">
@@ -15,77 +15,117 @@
 <body>
   <a class="skip-link" href="#main">Skip to controls</a>
   <aside class="sidebar" aria-label="Navigation">
-    <a class="wordmark" href="#overview" aria-label="BlackShark Local Control home"><span class="brand-icon">B/</span><span>BLACKSHARK<small>LOCAL CONTROL</small></span></a>
-    <div class="nav-label">WORKSPACE</div>
-    <nav>
-      <a href="#overview" aria-label="Overview"><span aria-hidden="true">◫</span> Overview</a>
-      <a href="#equalizer" aria-label="Equalizer"><span aria-hidden="true">≋</span> Equalizer</a>
-      <a href="#device-settings" aria-label="Device settings"><span aria-hidden="true">⚙</span> Device settings</a>
-      <a href="#audio-tools" aria-label="Audio check"><span aria-hidden="true">♫</span> Audio check</a>
+    <a class="wordmark" href="#overview" aria-label="BlackShark Local Control home">
+      <svg class="brand-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M7 5v22M16 5v22M25 5v22"/><path class="brand-faders" d="M3 11h8M12 22h8M21 15h8"/></svg>
+      <span>BlackShark<small>Local control</small></span>
+    </a>
+    <nav aria-label="Headset controls">
+      <a href="#overview" aria-current="location"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 14V10a7 7 0 0 1 14 0v4M5 12H3v7h5v-7Zm14 0h2v7h-5v-7Z"/></svg><span>Headset</span></a>
+      <a href="#equalizer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3v18M12 3v18M19 3v18M2 8h6M9 16h6M16 10h6"/></svg><span>Equalizer</span></a>
+      <a href="#device-settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18M3 17h18"/><circle cx="8" cy="7" r="3"/><circle cx="16" cy="17" r="3"/></svg><span>Device settings</span></a>
+      <a href="#audio-tools"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4M8 6v12M12 3v18M16 7v10M20 10v4"/></svg><span>Audio check</span></a>
     </nav>
-    <div class="sidebar-note"><span class="privacy-dot"></span> YOUR HARDWARE. YOUR DATA.<p>No accounts. No cloud.<br>Everything stays in this browser.</p></div>
-    <div class="sidebar-bottom">Independent software<br><span>Not affiliated with Razer.</span><span class="version">EXPERIMENTAL · v0.1</span></div>
+    <div class="sidebar-note"><span class="privacy-dot"></span> No cloud required<p>Direct device control.<br>No accounts or telemetry.</p></div>
+    <div class="sidebar-bottom">Independent software.<br>Not affiliated with Razer.<span>Version 0.1 / Experimental</span></div>
   </aside>
 
-  <main id="main">
-    <header class="topbar"><span>DEVICE WORKSPACE <span class="topbar-slash">/</span> BlackShark V2 HyperSpeed</span><span class="local-badge"><span class="privacy-dot"></span> LOCAL ONLY</span></header>
+  <main id="main" tabindex="-1">
+    <header class="topbar"><span>Headset control</span><span class="local-badge"><span class="privacy-dot"></span> Runs in your browser</span></header>
 
     <section id="overview" aria-labelledby="page-title">
-      <div class="heading-row"><div><p class="eyebrow">LESS SOFTWARE. MORE CONTROL.</p><h1 id="page-title">Make it sound like you.</h1><p class="intro">A direct line to your headset. Nothing running in the background.</p></div><span id="connection-badge" class="badge">Disconnected</span></div>
-
       <div id="compatibility" class="notice" hidden></div>
       <div id="feedback" class="feedback" role="status" aria-live="polite" aria-atomic="true" hidden></div>
 
-      <div class="device-card">
-        <div class="device-illustration" aria-hidden="true"><div class="headband"></div><div class="earcup left"></div><div class="earcup right"></div><div class="mic-boom"></div><span>V2 / HS</span></div>
-        <div class="device-copy"><p class="eyebrow">RAZER · WIRELESS + USB-C</p><h2>BlackShark V2 HyperSpeed</h2><p id="device-description">Connect your headset to read its current settings.</p><div class="device-actions"><button id="connect" class="button primary">Connect headset <span aria-hidden="true">↗</span></button><button id="disconnect" class="button dark-outline" disabled>Disconnect</button><button id="demo" class="text-button light">Explore demo</button></div><p class="device-hint">Chrome or Edge · Close Razer Synapse before connecting</p></div>
-        <div class="device-id"><span id="transport-label">AWAITING DEVICE</span><span class="connection-lines" aria-hidden="true">▂ ▄ ▆ █</span></div>
+      <div class="device-rack">
+        <div class="device-card">
+          <div class="device-heading">
+            <svg class="headset-drawing" viewBox="0 0 100 108" fill="none" aria-hidden="true"><path class="headset-band" d="M20 66V44a30 30 0 0 1 60 0v22"/><path d="M26 50v-7a24 24 0 0 1 48 0v7M17 62V49M83 62V49"/><rect x="11" y="57" width="20" height="34" rx="7"/><rect x="69" y="57" width="20" height="34" rx="7"/><path d="M21 88v5q0 8 9 8h17"/><rect x="43" y="98" width="12" height="6" rx="3"/></svg>
+            <div><h1 id="page-title">BlackShark V2 <span>HyperSpeed</span></h1><p class="device-model">Razer wireless headset</p></div>
+          </div>
+          <p id="device-description">Connect your headset to read its current settings.</p>
+          <div class="device-actions"><button id="connect" class="button primary">Connect headset</button><button id="disconnect" class="button outline" disabled>Disconnect</button><button id="demo" class="text-button">Explore demo</button></div>
+          <p class="device-hint">Use desktop Chrome or Edge. Close Razer Synapse first.</p>
+        </div>
+        <div class="telemetry">
+          <div class="connection-row"><span id="connection-badge" class="badge" role="status">Disconnected</span><span id="transport-label">Awaiting device</span></div>
+          <div class="stats-grid">
+            <div class="stat"><span class="stat-label">Battery</span><div class="stat-value" id="battery">—<small>%</small></div><div class="battery-track"><div id="battery-fill"></div></div><p id="charge-state">No device connected</p></div>
+            <div class="stat"><span class="stat-label">Device preset</span><div class="stat-value" id="current-preset">—</div><p>Last read from headset</p></div>
+            <div class="stat"><span class="stat-label">Mic switch</span><div class="stat-value" id="mute-state">—</div><p>Physical mute status</p></div>
+          </div>
+        </div>
       </div>
 
-      <div class="stats-grid">
-        <article class="stat-card"><span class="stat-label">BATTERY</span><div class="stat-value" id="battery">—<small>%</small></div><div class="battery-track"><div id="battery-fill"></div></div><p id="charge-state">No device connected</p></article>
-        <article class="stat-card"><span class="stat-label">ON-DEVICE PRESET</span><div class="stat-value" id="current-preset">—</div><p>Read from the headset, not your draft</p></article>
-        <article class="stat-card"><span class="stat-label">MICROPHONE SWITCH</span><div class="stat-value" id="mute-state">—</div><p>Physical mute button status</p></article>
+      <div class="safety-bar">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg>
+        <div><strong id="editing-state">Editing locked</strong><p>Experimental commands. Saved settings may persist after disconnecting.</p></div>
+        <label class="edit-switch"><input id="edit-toggle" type="checkbox" disabled><span>Enable device editing</span></label>
       </div>
-
-      <div class="safety-bar"><div class="safety-icon" aria-hidden="true">↳</div><div><strong>Read first. Write only when you mean it.</strong><p>Hardware commands are experimental and settings may persist after disconnecting.</p></div><label class="edit-switch"><input id="edit-toggle" type="checkbox" disabled><span>Enable device editing</span></label></div>
     </section>
 
     <section id="equalizer" class="panel eq-panel" aria-labelledby="eq-title">
-      <div class="panel-heading"><div><p class="eyebrow">01 / SOUND PROFILE</p><h2 id="eq-title">Find your frequency.</h2></div><span class="small-tag">10-BAND HARDWARE EQ</span></div>
-      <p class="section-description">Build a draft below. Nothing is sent until you apply it. Custom EQ replaces the headset’s saved custom curve.</p>
-      <fieldset id="eq-controls" disabled><legend class="sr-only">Equalizer draft</legend>
-        <div class="eq-toolbar"><div class="draft-presets" aria-label="Local draft curves"><span>DRAFT</span><button type="button" class="chip" data-curve="flat">Flat</button><button type="button" class="chip" data-curve="bass">Warm bass</button><button type="button" class="chip" data-curve="voice">Voice focus</button></div><button id="discard-eq" type="button" class="text-button light">Discard draft</button></div>
-        <div class="eq-chart"><div class="eq-scale" aria-hidden="true"><span>+6 dB</span><span>0</span><span>−9 dB</span></div><div class="eq-bands" id="eq-bands"></div></div>
+      <div class="panel-heading"><div><h2 id="eq-title">Equalizer</h2><p class="section-description">Ten bands. One curve. Saved directly to your headset when you apply.</p></div><span class="panel-note">−9 to +6 dB</span></div>
+      <fieldset id="eq-controls" disabled>
+        <legend class="sr-only">Equalizer draft</legend>
+        <div class="eq-toolbar"><div class="draft-presets" aria-label="Local draft curves"><span>Start with</span><button type="button" class="chip" data-curve="flat" aria-pressed="false">Flat</button><button type="button" class="chip" data-curve="bass" aria-pressed="false">Warm bass</button><button type="button" class="chip" data-curve="voice" aria-pressed="false">Voice focus</button></div><button id="discard-eq" type="button" class="text-button">Discard draft</button></div>
+        <div class="eq-scroll" tabindex="0" role="region" aria-label="Ten-band equalizer. Scroll horizontally on small screens.">
+          <div class="eq-console">
+            <div class="curve-heading"><span>Draft curve</span><div class="curve-legend" aria-hidden="true"><span class="legend-draft">Draft</span><span class="legend-saved">Last read</span></div></div>
+            <div class="curve-display" aria-hidden="true">
+              <div class="curve-scale"><span>+6</span><span>0</span><span>−9</span></div>
+              <svg class="curve-plot" viewBox="0 0 1000 114" preserveAspectRatio="none"><path class="curve-grid" d="M0 12H1000M0 30H1000M0 66H1000M0 84H1000M0 102H1000M50 0V114M150 0V114M250 0V114M350 0V114M450 0V114M550 0V114M650 0V114M750 0V114M850 0V114M950 0V114"/><path class="curve-zero" d="M0 48H1000"/><polyline id="eq-saved-curve" class="curve-saved" points="50,48 950,48"/><polyline id="eq-draft-curve" class="curve-draft" points="50,48 950,48"/><g id="eq-curve-points"></g></svg>
+            </div>
+            <div class="eq-chart"><div class="eq-scale" aria-hidden="true"><span>+6 dB</span><span>0</span><span>−9 dB</span></div><div class="eq-bands" id="eq-bands"></div></div>
+            <div class="frequency-caption" aria-hidden="true"><span>Bass</span><span>Midrange</span><span>Treble</span></div>
+          </div>
+        </div>
       </fieldset>
-      <div class="eq-footer"><p id="eq-state">Connect to read your current curve.</p><button id="apply-eq" class="button primary" disabled>Apply custom EQ <span aria-hidden="true">↗</span></button></div>
-      <div class="factory-row"><div><strong>Prefer a factory sound?</strong><p>Switch an on-device preset without replacing the custom curve.</p></div><div class="factory-actions"><label class="sr-only" for="factory-preset">Factory preset</label><select id="factory-preset" disabled><option value="8">Music</option><option value="7">Game</option><option value="9">Movie</option><option value="0">Flat / bypass</option></select><button id="apply-preset" class="button dark-outline" disabled>Use preset</button></div></div>
+      <p id="eq-scroll-hint" class="eq-scroll-hint" hidden>Scroll sideways to reach all ten bands. Use the arrow keys when a fader is focused.</p>
+      <div class="eq-footer"><p id="eq-state">Connect to read your current curve.</p><button id="apply-eq" class="button primary" disabled>Apply custom EQ</button></div>
+      <div class="factory-row"><div><label for="factory-preset">Factory preset</label><p>Switch presets without replacing your saved custom curve.</p></div><div class="factory-actions"><select id="factory-preset" disabled><option value="8">Music</option><option value="7">Game</option><option value="9">Movie</option><option value="0">Flat / bypass</option></select><button id="apply-preset" class="button outline" disabled>Use preset</button></div></div>
     </section>
 
     <section id="device-settings" class="panel" aria-labelledby="settings-title">
-      <div class="panel-heading"><div><p class="eyebrow">02 / THE EVERYDAY DETAILS</p><h2 id="settings-title">Set it. Then forget it.</h2></div><span class="small-tag neutral">EXPLICIT SAVE ONLY</span></div>
+      <div class="panel-heading"><div><h2 id="settings-title">Device settings</h2><p class="section-description">Adjust a local draft, then save and confirm. Nothing changes as you edit.</p></div><span class="panel-note">Explicit save only</span></div>
       <form id="settings-form">
-        <fieldset id="settings-controls" disabled><legend class="sr-only">Device settings</legend>
+        <fieldset id="settings-controls" disabled>
+          <legend class="sr-only">Device settings</legend>
           <div class="settings-grid">
-            <div class="setting"><label for="sidetone">Hardware sidetone</label><p>Hear your own voice through the headset. No browser mic access needed to send this setting.</p><label class="toggle-label"><input id="sidetone" type="checkbox"> Enable sidetone</label><div class="range-row"><label for="sidetone-level">Level</label><input id="sidetone-level" type="range" min="0" max="15" value="10"><output id="sidetone-output" for="sidetone-level">10 / 15</output></div><p id="sidetone-status" role="status">Connect to read the hardware sidetone state.</p><p>A level of 0 is silent. Read-back confirms the saved setting, not that sound is audible.</p></div>
-            <div class="setting"><label for="sleep">Auto power-off</label><p>Minutes of inactivity before the headset sleeps. Set to 0 to keep it on.</p><div class="number-row"><input id="sleep" type="number" min="0" max="255" step="1" value="15" required><span>minutes <span class="muted">· 0–255</span></span></div></div>
-            <div class="setting"><label for="dnd">Stay in the game</label><p>Block incoming Bluetooth calls while using the 2.4 GHz connection.</p><label class="toggle-label"><input id="dnd" type="checkbox"> Enable Do Not Disturb</label></div>
-            <div class="setting"><label for="led">Dongle indicator</label><p id="led-help">Only available with the 2.4 GHz USB dongle.</p><select id="led" aria-describedby="led-help"><option value="0">Off</option><option value="1">Connection status</option><option value="2">Battery level</option><option value="3">Low-battery warning</option></select></div>
+            <div class="setting sidetone-setting">
+              <label for="sidetone">Hardware sidetone</label><p>Hear your voice in the headset. No browser microphone access needed.</p>
+              <label class="toggle-label"><input id="sidetone" type="checkbox"> Enable sidetone</label>
+              <div class="range-row"><label for="sidetone-level">Level</label><input id="sidetone-level" type="range" min="0" max="15" value="10"><output id="sidetone-output" for="sidetone-level">10 / 15</output></div>
+              <p id="sidetone-status" class="readback" role="status">Connect to read the hardware sidetone state.</p><p class="setting-help">A level of 0 is silent. Read-back confirms the saved setting, not audible sound.</p>
+            </div>
+            <div class="setting"><label for="sleep">Auto power-off</label><p>Minutes of inactivity before sleep. Set to 0 to keep the headset on.</p><div class="number-row"><input id="sleep" type="number" min="0" max="255" step="1" value="15" required><span>minutes <span class="muted">(0–255)</span></span></div></div>
+            <div class="setting"><label for="dnd">Bluetooth call blocking</label><p>Block incoming calls while using the 2.4 GHz connection.</p><label class="toggle-label"><input id="dnd" type="checkbox"> Enable Do Not Disturb</label></div>
+            <div class="setting"><label for="led">Dongle indicator</label><p id="led-help">Available only with the 2.4 GHz USB dongle.</p><select id="led" aria-describedby="led-help"><option value="0">Off</option><option value="1">Connection status</option><option value="2">Battery level</option><option value="3">Low-battery warning</option></select></div>
           </div>
         </fieldset>
-        <div class="panel-footer"><p>Changed settings are written and read back. Enabling sidetone also reapplies its level.</p><button id="save-settings" type="submit" class="button ink" disabled>Save device settings <span aria-hidden="true">↗</span></button></div>
+        <div class="panel-footer"><p>Changed settings are written and read back. Enabling sidetone also reapplies its level.</p><button id="save-settings" type="submit" class="button primary" disabled>Save device settings</button></div>
       </form>
     </section>
 
     <div class="bottom-grid">
-      <section id="audio-tools" class="panel" aria-labelledby="audio-title"><p class="eyebrow">03 / A QUICK CHECK</p><h2 id="audio-title">Sound check.</h2><p class="section-description">Lower your system volume first. The tone uses your browser’s current audio output.</p><div class="audio-actions"><button id="tone" class="button outline">Play 5-second tone</button><button id="mic" class="button outline">Test microphone</button><button id="stop-audio" class="text-button" disabled>Stop audio</button></div><div class="meter" role="meter" aria-label="Microphone input level" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="mic-meter"><div id="mic-level"></div></div><p id="audio-state" class="audio-state">Microphone is off.</p><p class="fine-print">Mic testing asks for permission and uses your browser-selected input. It never records, uploads, or plays back audio. Stops within 30 seconds, on disconnect, or when this page is hidden.</p></section>
-      <section class="panel details-panel" aria-labelledby="details-title"><p class="eyebrow">04 / UNDER THE HOOD</p><h2 id="details-title">Your device, in detail.</h2><dl><div><dt>Connection</dt><dd id="detail-connection">—</dd></div><div><dt>Firmware</dt><dd id="detail-firmware">—</dd></div><div><dt>Serial number</dt><dd id="detail-serial">—</dd></div><div><dt>USB identifier</dt><dd id="detail-usb">—</dd></div></dl><div class="detail-actions"><button id="refresh" class="text-button" disabled>↻ Read device again</button><button id="forget" class="text-button danger" disabled>Forget device permission</button></div></section>
+      <section id="audio-tools" class="panel" aria-labelledby="audio-title">
+        <h2 id="audio-title">Audio check</h2><p class="section-description">Lower your system volume first. The tone plays through your browser’s current output.</p>
+        <div class="audio-actions"><button id="tone" class="button outline">Play 5-second tone</button><button id="mic" class="button outline">Test microphone</button><button id="stop-audio" class="text-button" disabled>Stop audio</button></div>
+        <div class="meter-heading"><span>Microphone input</span><span>No playback</span></div>
+        <div class="meter" role="meter" aria-label="Microphone input level" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="mic-meter"><div id="mic-level"></div></div>
+        <p id="audio-state" class="audio-state" role="status">Microphone is off.</p><p class="fine-print">Uses your browser-selected input, which may not be this headset. Permission is required. No recording, upload, or playback. Stops within 30 seconds, on disconnect, or when this page is hidden.</p>
+      </section>
+      <section class="panel details-panel" aria-labelledby="details-title">
+        <h2 id="details-title">Device details</h2><dl><div><dt>Connection</dt><dd id="detail-connection">—</dd></div><div><dt>Firmware</dt><dd id="detail-firmware">—</dd></div><div><dt>Serial number</dt><dd id="detail-serial">—</dd></div><div><dt>USB identifier</dt><dd id="detail-usb">—</dd></div></dl>
+        <div class="detail-actions"><button id="refresh" class="text-button" disabled>Read device again</button><button id="forget" class="text-button danger" disabled>Forget device permission</button></div>
+      </section>
     </div>
 
-    <details class="diagnostics"><summary>Session activity <span>Local · no raw-command console</span></summary><div class="log-toolbar"><p>Serial numbers and audio are not added to this log.</p><button id="clear-log" class="text-button">Clear</button></div><ol id="activity-log" aria-label="Session activity"></ol></details>
-    <footer class="footer"><span>BLACKSHARK / LOCAL CONTROL</span><p>No automatic reconnect. Hiding this page stops audio and disconnects the headset.</p><span>BUILT TO STAY LOCAL ↙</span></footer>
+    <details class="diagnostics"><summary>Session activity <span>Local diagnostics only</span></summary><div class="log-toolbar"><p>No serial numbers, audio, or raw-command console.</p><button id="clear-log" class="text-button">Clear</button></div><ol id="activity-log" aria-label="Session activity"></ol></details>
+    <footer class="footer"><span>BlackShark / Local control</span><p>No automatic reconnect. Hiding this page stops audio and disconnects the headset.</p></footer>
   </main>
 
-  <dialog id="write-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description"><form method="dialog"><p class="eyebrow">BEFORE YOU APPLY</p><h2 id="dialog-title">Write to your headset?</h2><p id="dialog-description"></p><p class="fine-print">These reverse-engineered commands are not verified for every firmware. A failed operation can leave some changes applied. No automatic retry or rollback is attempted.</p><div class="dialog-actions"><button value="cancel" class="button outline" autofocus>Cancel</button><button value="apply" class="button ink">Apply to headset</button></div></form></dialog>
+  <dialog id="write-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
+    <form method="dialog"><h2 id="dialog-title">Write to your headset?</h2><p id="dialog-description"></p><p class="fine-print">These reverse-engineered commands are not verified for every firmware. A failed operation can leave some changes applied. No automatic retry or rollback is attempted.</p><div class="dialog-actions"><button value="cancel" class="button outline" autofocus>Cancel</button><button value="apply" class="button primary">Apply to headset</button></div></form>
+  </dialog>
 </body>
 </html>

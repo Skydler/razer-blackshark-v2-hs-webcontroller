@@ -72,12 +72,20 @@ Do not run the browser as root, disable its sandbox, or use a blanket
 ## Features
 
 - Battery, charging, physical mic-mute status, firmware, and serial read-out.
-- Ten-band hardware EQ, with local Flat, Warm bass, and Voice focus drafts.
+- Ten-band hardware EQ with silver faders, a draft-versus-last-read curve,
+  and local Flat, Warm bass, and Voice focus drafts. The plot connects band
+  gains; it is not a measured frequency response.
 - Factory Music, Game, Movie, and Flat preset selection.
 - Hardware sidetone and level, sleep timer, Bluetooth DND, and dongle LED mode.
 - A quiet five-second test tone and optional microphone-level meter.
 - Manual refresh, bounded local diagnostics, disconnect, and permission removal.
 - Responsive keyboard-accessible UI, labeled controls, and reduced-motion support.
+
+The audio-console interface keeps connection status and editing permission
+separate. On small screens, scroll the EQ console sideways to reach every band.
+Focus a fader and use the arrow keys for one-decibel changes. Draft buttons show
+which curve matches your current draft; **Discard draft** restores the last
+read-back curve, not factory defaults.
 
 ## Safety and privacy changes
 

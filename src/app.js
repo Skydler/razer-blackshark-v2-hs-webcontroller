@@ -58,12 +58,19 @@ function updateControls() {
   $('mic').disabled = busy || document.hidden || !navigator.mediaDevices?.getUserMedia;
   $('stop-audio').disabled = !audio.active;
   if (controller) controller.writesEnabled = $('edit-toggle').checked && synced;
-  $('connection-badge').textContent = demo ? 'Demo · no device access' : connected ? (synced ? 'Connected' : 'Not synchronized') : 'Disconnected';
+  $('connection-badge').textContent = demo ? 'Demo (no device access)' : connected ? (synced ? 'Connected' : 'Not synchronized') : 'Disconnected';
   $('connection-badge').className = `badge${demo ? ' demo' : connected && synced ? ' connected' : ''}`;
+  $('editing-state').textContent = demo ? 'Demo only. Device editing is locked.' : connected && synced && $('edit-toggle').checked
+    ? 'Device editing enabled' : connected ? 'Read-only connection' : 'Editing locked';
+  $('edit-toggle').closest('.safety-bar').dataset.editing = String(connected && synced && $('edit-toggle').checked);
+  $('equalizer').dataset.hasReading = String(demo || (connected && synced));
   $('eq-state').textContent = demo
     ? 'Demo draft only. Connect a headset to apply changes.'
     : !connected ? 'Connect to read your current curve.'
-      : dirtyEq() ? 'Unsaved draft · no changes sent to your headset.' : 'Draft matches the last device read-back.';
+      : busy ? 'Device operation in progress. Controls are temporarily locked.'
+        : !synced ? 'Read the device again or reconnect before editing.'
+          : !editable ? 'Enable device editing to adjust your curve.'
+            : dirtyEq() ? 'Unsaved draft. No changes sent to your headset.' : 'Draft matches the last device read-back.';
 }
 
 async function task(operation, success = '') {
@@ -104,6 +111,14 @@ function renderEq(values) {
     $(`band-${index}`).value = draftEq[index];
     $(`gain-${index}`).textContent = `${draftEq[index] > 0 ? '+' : ''}${draftEq[index]}`;
     $(`band-${index}`).setAttribute('aria-valuetext', `${draftEq[index]} decibels`);
+    $(`curve-point-${index}`).setAttribute('cy', String(12 + (6 - draftEq[index]) * 6));
+  });
+  // The plot shows discrete band gains, not a measured frequency response.
+  const points = gains => gains.map((gain, index) => `${50 + index * 100},${12 + (6 - gain) * 6}`).join(' ');
+  $('eq-draft-curve').setAttribute('points', points(draftEq));
+  $('eq-saved-curve').setAttribute('points', points(savedEq));
+  document.querySelectorAll('[data-curve]').forEach(button => {
+    button.setAttribute('aria-pressed', String(curves[button.dataset.curve].every((gain, index) => gain === draftEq[index])));
   });
   updateControls();
 }
@@ -129,7 +144,7 @@ function renderAll(data, device) {
   renderEq(data.eq);
   const transport = device.productId === 0x0565 ? '2.4 GHz wireless dongle' : 'USB-C wired';
   $('device-description').textContent = demo ? 'Simulated data. Demo mode never opens a HID device.' : 'Connected directly. Settings are read from your headset.';
-  $('transport-label').textContent = demo ? 'DEMO MODE' : transport.toUpperCase();
+  $('transport-label').textContent = demo ? 'Simulated headset' : transport;
   $('detail-connection').textContent = transport;
   $('detail-firmware').textContent = data.firmware;
   $('detail-serial').textContent = data.serial || 'Not reported';
@@ -141,7 +156,7 @@ function resetDisplay() {
   $('battery-fill').style.width = '0%';
   $('charge-state').textContent = 'No device connected';
   $('device-description').textContent = 'Connect your headset to read its current settings.';
-  $('transport-label').textContent = 'AWAITING DEVICE';
+  $('transport-label').textContent = 'Awaiting device';
   savedEq = Array(10).fill(0);
   savedSettings = null;
   $('sidetone-status').textContent = 'Connect to read the hardware sidetone state.';
@@ -251,6 +266,12 @@ const audio = new AudioTools({
 });
 
 FREQUENCIES.forEach((frequency, index) => {
+  const point = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  point.id = `curve-point-${index}`;
+  point.setAttribute('cx', String(50 + index * 100));
+  point.setAttribute('cy', '48');
+  point.setAttribute('r', '3');
+  $('eq-curve-points').append(point);
   const band = document.createElement('div');
   band.className = 'eq-band';
   const output = document.createElement('output');
@@ -264,7 +285,8 @@ FREQUENCIES.forEach((frequency, index) => {
   input.max = '6';
   input.step = '1';
   input.value = '0';
-  input.setAttribute('aria-label', `${frequency} hertz EQ gain`);
+  const hertz = frequency.endsWith('k') ? Number(frequency.slice(0, -1)) * 1000 : Number(frequency);
+  input.setAttribute('aria-label', `${hertz} hertz EQ gain`);
   input.setAttribute('aria-valuetext', '0 decibels');
   input.addEventListener('input', () => {
     draftEq[index] = Number(input.value);
@@ -272,7 +294,7 @@ FREQUENCIES.forEach((frequency, index) => {
   });
   const label = document.createElement('label');
   label.htmlFor = input.id;
-  label.textContent = frequency;
+  label.textContent = frequency.endsWith('k') ? `${frequency.slice(0, -1)} kHz` : `${frequency} Hz`;
   band.append(output, input, label);
   $('eq-bands').append(band);
 });
@@ -375,11 +397,31 @@ document.addEventListener('visibilitychange', () => {
 });
 window.addEventListener('pagehide', () => { void disconnect(''); });
 
+const navigationLinks = [...document.querySelectorAll('nav a')];
+function markNavigation(target) {
+  navigationLinks.forEach(link => {
+    if (link.getAttribute('href') === target) link.setAttribute('aria-current', 'location');
+    else link.removeAttribute('aria-current');
+  });
+}
+window.addEventListener('hashchange', () => markNavigation(window.location.hash || '#overview'));
+const sectionObserver = new IntersectionObserver(entries => {
+  const visible = entries.find(entry => entry.isIntersecting);
+  if (visible) markNavigation(`#${visible.target.id}`);
+}, { rootMargin: '-8% 0px -65% 0px' });
+navigationLinks.forEach(link => sectionObserver.observe(document.querySelector(link.getAttribute('href'))));
+const eqScroller = document.querySelector('.eq-scroll');
+const eqResizeObserver = new ResizeObserver(() => {
+  $('eq-scroll-hint').hidden = eqScroller.scrollWidth <= eqScroller.clientWidth;
+});
+eqResizeObserver.observe(eqScroller);
+
 if (!supported) {
   $('compatibility').hidden = false;
   $('compatibility').textContent = !window.isSecureContext
     ? 'Open this app on http://localhost:8080 or HTTPS. WebHID requires a secure context.'
     : 'This browser does not support WebHID. Use desktop Chrome or Edge. You can still explore the demo.';
 }
-updateControls();
+markNavigation(window.location.hash || '#overview');
+renderEq(savedEq);
 log('Ready. No device access is requested until you click Connect headset.');
