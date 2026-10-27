@@ -63,7 +63,7 @@ export function parseResponse(view) {
   }
   // WebHID provides a DataView; its offset need not be zero.
   const data = new Uint8Array(view.buffer, view.byteOffset, view.byteLength);
-  // The controller uses a different checksum seed for IN and OUT reports.
+  // IN and OUT reports use different checksum seeds.
   // Do not accept alternative checksums as a compatibility fallback.
   let checksum = 0;
   for (let i = 0; i < 61; i++) checksum ^= data[i];

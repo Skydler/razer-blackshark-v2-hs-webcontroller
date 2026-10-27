@@ -89,7 +89,7 @@ export class HeadsetController {
       const enablingSidetone = desired.sidetone && !current.sidetone;
       const commands = { sidetone: 0x98, sidetoneLevel: 0x99, sleep: 0xac, dnd: 0xa7, led: 0xe6 };
       for (const [key, value] of Object.entries(desired)) {
-        // Preserve the controller's enable-then-level sequence, even if the
+        // Send the enable-then-level sequence, even if the
         // stored level already matches. A stored value need not be latched.
         if (current[key] !== value || (key === 'sidetoneLevel' && enablingSidetone)) {
           await this.#write(commands[key], [Number(value)], key === 'led' ? 0 : undefined);
